@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors Game</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #game-container {
+            text-align: center;
+            background-color: #3498db;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #e74c3c;
+        }
+
+        #score {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Rock, Paper, Scissors Game</h1>
+        <p>Choose your move:</p>
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
+        <p id="result"></p>
+        <p id="score">Player: 0 | Computer: 0</p>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        function playGame(playerChoice) {
+            if (attempts >= maxAttempts) {
+                alert('Game over! Max attempts reached.');
+                return;
+            }
+
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            let result;
+
+            if (playerChoice === computerChoice) {
+                result = 'It\'s a tie!';
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = 'You win!';
+                playerScore++;
+            } else {
+                result = 'Computer wins!';
+                computerScore++;
+            }
+
+            attempts++;
+
+            document.getElementById('result').textContent = `You chose ${playerChoice}, Computer chose ${computerChoice}. ${result}`;
+            document.getElementById('score').textContent = `Player: ${playerScore} | Computer: ${computerScore}`;
+
+            if (attempts === maxAttempts) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            let winner;
+            if (playerScore > computerScore) {
+                winner = 'Player';
+            } else if (playerScore < computerScore) {
+                winner = 'Computer';
+            } else {
+                winner = 'It\'s a tie!';
+            }
+
+            alert(`Game over!\nPlayer: ${playerScore} | Computer: ${computerScore}\nWinner: ${winner}`);
+            resetGame();
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            attempts = 0;
+            document.getElementById('result').textContent = '';
+            document.getElementById('score').textContent = 'Player: 0 | Computer: 0';
+        }
+    </script>
+</body>
+</html>
